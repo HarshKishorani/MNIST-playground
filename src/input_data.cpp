@@ -69,7 +69,7 @@ void InputData::readData(const std::string trainImagesPath, const std::string tr
     std::cout << "=> Read number of labels : " << nLabels << std::endl;
 }
 
-void InputData::display_image(sf::RenderWindow &window, int imageIndex, int predictedIndex)
+void InputData::display_image_from_data(sf::RenderWindow &window, int imageIndex, int predictedIndex)
 {
     int offset = imageIndex * IMAGE_SIZE * IMAGE_SIZE;
     sf::Font font;
@@ -113,5 +113,30 @@ void InputData::display_image(sf::RenderWindow &window, int imageIndex, int pred
     window.clear();
     window.draw(sprite);
     window.draw(text);
+    window.display();
+}
+
+void InputData::display_image(sf::RenderWindow &window, std::vector<float> img)
+{
+    sf::Image image;
+    image.create(IMAGE_SIZE, IMAGE_SIZE);
+    for (int y = 0; y < IMAGE_SIZE; y++)
+    {
+        for (int x = 0; x < IMAGE_SIZE; x++)
+        {
+            // Convert the float value (0.0 - 1.0) back to grayscale (0 - 255)
+            unsigned char pixelValue = static_cast<unsigned char>(img[y * IMAGE_SIZE + x] * 255);
+            sf::Color color(pixelValue, pixelValue, pixelValue); // Grayscale color
+            image.setPixel(x, y, color);
+        }
+    }
+
+    sf::Texture texture;
+    texture.loadFromImage(image);
+    sf::Sprite sprite(texture);
+    sprite.setScale(20.f, 20.f); // Scale the image for better visibility
+
+    window.clear();
+    window.draw(sprite);
     window.display();
 }

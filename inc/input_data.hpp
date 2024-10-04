@@ -23,6 +23,6 @@ public:
 
     void readData(const std::string trainImagesPath, const std::string trainLabelsPath);
 
-    void display_image(sf::RenderWindow &window, int imageIndex, int predictedIndex = -1);
-    void display_image(sf::RenderWindow &window, std::vector<unsigned char> image);
+    void display_image_from_data(sf::RenderWindow &window, int imageIndex, int predictedIndex = -1);
+    void display_image(sf::RenderWindow &window, std::vector<float> img);
 };
